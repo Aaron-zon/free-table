@@ -1,0 +1,21 @@
+{
+  "name": "free-table",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "sass-loader": "^14.0.0",
+    "style-loader": "^3.3.4",
+    "vue": "^3.3.11"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.2",
+    "sass": "^1.70.0",
+    "vite": "^5.0.8"
+  }
+}
