@@ -48,8 +48,6 @@
 .free-table-container {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
-    overflow-y: hidden;
 
     .free-table-loading {
         box-sizing: border-box;
@@ -67,7 +65,7 @@
             transition: background-color 0.3s ease;
             border-radius: 6px 6px 0 0;
             display: flex;
-            // position: static;
+            position: static;
             overflow: hidden hidden;
 
             .free-table-center-viewport {
@@ -236,8 +234,8 @@
 
         .free-table-sticky-header {
             position: sticky;
-            z-index: 9;
             top: 0;
+            z-index: 9;
         }
 
         // 内容区域

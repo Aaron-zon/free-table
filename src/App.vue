@@ -41,7 +41,7 @@ const columns = [
     },
 ];
 
-for (let i = 0; i < 200; i++) {
+for (let i = 0; i < 20; i++) {
     dataSource.push({
         key: i,
         name: `Edrward ${i}`,
@@ -51,8 +51,8 @@ for (let i = 0; i < 200; i++) {
     });
 }
 
-// const scroll = {x: 1800};
-const scroll = {y: 1000, x: 1800};
+const scroll = {x: 1800};
+// const scroll = {y: 1000, x: 1800};
 // const scroll = {y: 400, x: 1800};
 // const scroll = {y: 415};
 // const scroll = {y: 400};
@@ -62,7 +62,7 @@ const scroll = {y: 1000, x: 1800};
 
 <template>
     <div class="wrapper">
-        <FTable :data-source="dataSource" :columns="columns" :scroll="scroll">
+        <FTable :data-source="dataSource" :columns="columns" :scroll="scroll" :sticky="true">
             <template #bodyCell="{column}">
                 <template v-if="column.key === 'operation'">
                     <a href="#">Action</a>
@@ -83,7 +83,8 @@ const scroll = {y: 1000, x: 1800};
 <style scoped>
 
 .wrapper {
-  width: 100%;
-  /* padding: 10px; */
+    box-sizing: border-box;
+    padding: 100px 50px;
+    width: 100%;
 }
 </style>

@@ -39,6 +39,10 @@ const props = defineProps({
     scrollMeasure: {
         type: Number,
         default: 17,
+    },
+    sticky: {
+        typeof: Boolean,
+        default: false
     }
 });
 
@@ -106,7 +110,7 @@ const {
     <div class="free-table-container" ref="freeTableRef" :class="tableStyles">
         <div class="free-table-loading">
             <!-- Header -->
-            <div class="free-table-header free-table-sticky-header" ref="freeTableHeaderRef">
+            <div class="free-table-header" :class="{'free-table-sticky-header': props.sticky}" ref="freeTableHeaderRef">
                 <div class="free-table-center-viewport" :style="headerCenterViewportStyles">
                     
                     <div class="free-table-fix-left">
