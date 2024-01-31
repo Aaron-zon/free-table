@@ -52,9 +52,11 @@
     overflow-y: hidden;
 
     .free-table-loading {
-        position: relative;
         box-sizing: border-box;
+        position: relative;
         height: 100%;
+        display: flex;
+        flex-direction: column;
 
         .free-table-header {
             box-sizing: border-box;
@@ -65,8 +67,8 @@
             transition: background-color 0.3s ease;
             border-radius: 6px 6px 0 0;
             display: flex;
-            position: static;
-            overflow: hidden;
+            // position: static;
+            overflow: hidden hidden;
 
             .free-table-center-viewport {
                 box-sizing: border-box;
@@ -125,7 +127,6 @@
                     position: sticky;
                     right: 0;
                     z-index: 4;
-                    display: flex;
                     align-items: center;
                     background-color: var(--free-table-background-color);
 
@@ -233,6 +234,12 @@
             }
         }
 
+        .free-table-sticky-header {
+            position: sticky;
+            z-index: 9;
+            top: 0;
+        }
+
         // 内容区域
         .free-table-body {
             box-sizing: border-box;
@@ -246,16 +253,18 @@
             // 数据
             .free-table-body-viewport-container {
                 box-sizing: border-box;
-                overflow-x: hidden;
-                overflow-y: hidden;
+                overflow: hidden;
                 display: flex;
+                width: auto;
 
                 .free-table-center {
                     box-sizing: border-box;
+                    position: relative;
+                    display: flex;
+                    flex: 1 1 auto;
                     flex-shrink: 0;
                     flex-grow: 0;
-                    position: relative;
-                    flex: 1 1 auto;
+                    width: auto;
                     min-width: 0;
                     min-height: 100%;
 
@@ -276,6 +285,8 @@
                     z-index: 3;
 
                     .free-table-cell-shadow-left {
+                        position: relative;
+
                         &:after {
                             position: absolute;
                             top: 0;
@@ -293,14 +304,13 @@
                 }
 
                 .free-table-fix-right {
-                    box-sizing: border-box;
-                    flex-shrink: 0;
-                    flex-grow: 0;
-                    position: absolute;
+                    position: sticky;
                     right: 0;
-                    z-index: 3;
+                    z-index: 4;
 
                     .free-table-cell-shadow-right {
+                        position: relative;
+
                         &:after {
                             position: absolute;
                             top: 0;
@@ -318,8 +328,12 @@
                 }
 
                 .free-table-center .free-table-center-container, .free-table-fix-left, .free-table-fix-right {
+                    box-sizing: border-box;
+                    outline: none;
+
                     .free-table-row {
                         box-sizing: border-box;
+                        outline: none;
                         color: var(--free-table-text-color);
                         background-color: var(--free-table-row-bg);
                         width: 100%;
@@ -328,7 +342,7 @@
                         border-bottom: 1px solid var(--free-table-border-color);
 
                         .free-table-cell {
-                            height: 100%;
+                            // height: 50px;
 
                             .free-table-cell-inner {
                                 box-sizing: border-box;
@@ -365,9 +379,12 @@
                 height: auto;
 
                 .free-table-vertical-scroll-viewport {
+                    box-sizing: border-box;
+                    outline: none;
                     width: 100%;
                     min-width: 100%;
                     max-width: 100%;
+                    
                 }
             }
         }

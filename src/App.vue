@@ -41,7 +41,7 @@ const columns = [
     },
 ];
 
-for (let i = 0; i < 4; i++) {
+for (let i = 0; i < 200; i++) {
     dataSource.push({
         key: i,
         name: `Edrward ${i}`,
@@ -52,7 +52,8 @@ for (let i = 0; i < 4; i++) {
 }
 
 // const scroll = {x: 1800};
-const scroll = {y: 403.12, x: 1800};
+const scroll = {y: 1000, x: 1800};
+// const scroll = {y: 400, x: 1800};
 // const scroll = {y: 415};
 // const scroll = {y: 400};
 
@@ -60,22 +61,29 @@ const scroll = {y: 403.12, x: 1800};
 </script>
 
 <template>
-  <FTable :data-source="dataSource" :columns="columns" :scroll="scroll">
-    <template #bodyCell="{column}">
-        <template v-if="column.key === 'operation'">
-            <a href="#">Action</a>
-        </template>
+    <div class="wrapper">
+        <FTable :data-source="dataSource" :columns="columns" :scroll="scroll">
+            <template #bodyCell="{column}">
+                <template v-if="column.key === 'operation'">
+                    <a href="#">Action</a>
+                </template>
 
-        <template v-if="column.key === 'name'">
-            <a href="#">{{ column.title }}</a>
-        </template>
+                <template v-if="column.key === 'name'">
+                    <a href="#">{{ column.title }}</a>
+                </template>
 
-        <template v-if="column.key === 'column1'">
-            <a href="#">{{ column.title }}</a>
-        </template>
-    </template>
-  </FTable>
+                <template v-if="column.key === 'column1'">
+                    <a href="#">{{ column.title }}</a>
+                </template>
+            </template>
+        </FTable>
+    </div>
 </template>
 
 <style scoped>
+
+.wrapper {
+  width: 100%;
+  /* padding: 10px; */
+}
 </style>

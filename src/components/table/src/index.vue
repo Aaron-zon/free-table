@@ -75,7 +75,7 @@ const {
     bodyVerticalScrollViewportStyle,
     bodyScrollStyles,
     tableWheel,
-    verticalScrollStyle,
+    verticalScrollStyles,
     horizontalScrollContainerStyles,
     horizontalScrollFillStyles,
 } = useScroll(props, freeTableHeaderRef, freeTableBodyRef, horizontalScrollRef, bodyVerticalScrollRef);
@@ -85,21 +85,28 @@ const {
     tableFixRightStyles,
     headerCenterViewportStyles,
     tableCenterStyles,
+    tableCenterContainerStyles,
     tableBodyStyles,
     tableCellBoxClass,
-    columnStyles
+    cellShadowStyles,
+    rowStyles,
+    columnStyles,
+    bodycellStyles
 } = useTableStyles(props);
 
 const {
-    fixedRightCheck
+    fixedRightCheck,
+    leftScrollCheck
 } = useCheck(props);
+
 </script>
 
 <template>
+    
     <div class="free-table-container" ref="freeTableRef" :class="tableStyles">
         <div class="free-table-loading">
             <!-- Header -->
-            <div class="free-table-header" ref="freeTableHeaderRef">
+            <div class="free-table-header free-table-sticky-header" ref="freeTableHeaderRef">
                 <div class="free-table-center-viewport" :style="headerCenterViewportStyles">
                     
                     <div class="free-table-fix-left">
@@ -119,7 +126,7 @@ const {
                     </div>
 
                     <div class="free-table-center">
-                        <div class="free-table-center-container" :style="tableCenterStyles">
+                        <div class="free-table-center-container">
                             <template v-for="(col, idx) in columns" :key="idx" >
                                 <div class="free-table-cell" 
                                     v-if="!col.fixed"
@@ -153,17 +160,17 @@ const {
                     </div>
                 </div>
 
-                <div class="free-table-header-scrollbar"></div>
+                <div class="free-table-header-scrollbar" v-if="leftScrollCheck"></div>
             </div>
             <!-- body -->
             <div class="free-table-body" :style="tableBodyStyles">
                 <div class="free-table-body-viewport-container" ref="freeTableBodyRef" @wheel="tableWheel">
-                    <div class="free-table-fix-left">
-                        <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx">
+                    <div class="free-table-fix-left" :style="tableCenterStyles">
+                        <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx" :style="rowStyles">
                             <template v-for="(col, cIdx) in props.columns" :key="cIdx" >
                                 <div class="free-table-cell" 
                                     v-if="col.fixed === true || col.fixed == 'left'"
-                                    :style="[columnStyles(col)]"
+                                    :style="[columnStyles(col), bodycellStyles]"
                                 >
                                     <div class="free-table-cell-inner">
                                         <div class="free-table-cell-content">
@@ -172,17 +179,17 @@ const {
                                     </div>
                                 </div>
                             </template>
+                            <div class="free-table-cell-shadow-left" :style="cellShadowStyles"></div>
                         </div>
-                        <div class="free-table-cell-shadow-left"></div>
                     </div>
 
-                    <div class="free-table-center">
-                        <div class="free-table-center-container" :style="tableCenterStyles">
-                            <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx">
+                    <div class="free-table-center" :style="tableCenterStyles">
+                        <div class="free-table-center-container" :style="tableCenterContainerStyles">
+                            <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx" :style="rowStyles">
                                 <template v-for="(col, cIdx) in props.columns" :key="cIdx" >
                                     <div class="free-table-cell" 
                                         v-if="!col.fixed"
-                                        :style="[columnStyles(col)]"
+                                        :style="[columnStyles(col), bodycellStyles]"
                                     >
                                         <div class="free-table-cell-inner">
                                             <div class="free-table-cell-content">
@@ -196,13 +203,13 @@ const {
                     </div>
 
                     <div class="free-table-fix-right" :style="tableFixRightStyles">
-                        <div class="free-table-cell-shadow-right" v-if="fixedRightCheck"></div>
 
-                        <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx">
+                        <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx" :style="rowStyles">
+                            <div class="free-table-cell-shadow-right" v-if="fixedRightCheck" :style="cellShadowStyles"></div>
                             <template v-for="(col, cIdx) in props.columns" :key="cIdx" >
                                 <div class="free-table-cell" 
                                     v-if="col.fixed == 'right'"
-                                    :style="[columnStyles(col)]"
+                                    :style="[columnStyles(col), bodycellStyles]"
                                 >
                                     <div class="free-table-cell-inner">
                                         <div class="free-table-cell-content">
@@ -214,7 +221,7 @@ const {
                         </div>
                     </div>
                 </div>
-                <div class="free-table-vertical-scroll" :style="verticalScrollStyle">
+                <div class="free-table-vertical-scroll" :style="verticalScrollStyles">
                     <div class="free-table-vertical-scroll-viewport"
                         ref="bodyVerticalScrollRef"
                         @scroll="bodyVerticalScroll"

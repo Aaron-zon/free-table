@@ -1,9 +1,15 @@
 import { computed } from 'vue';
 import { checkNumberOrString } from './utils';
 import { freeTableWidth } from './useResize';
+import { useCheck } from './useCheck';
 
 export const useTableStyles = (props) => {
 
+    const { leftScrollCheck, bottomScrollCheck } = useCheck(props);
+
+    /**
+     * free-table-container 的样式
+     */
     const tableStyles = computed(() => {
         const hasFixedColumn = props.columns.some(column => column.fixed === 'left' || column.fixed === true);
         return {
@@ -12,11 +18,19 @@ export const useTableStyles = (props) => {
         }
     })
 
+    /**
+     * free-table-fix-right 的样式
+     */
     const tableFixRightStyles = computed(() => {
-        // && props.scroll.y < props.rowHeight * props.dataSource.length
+        let right = 0;
+
+        if (leftScrollCheck.value && bottomScrollCheck.value) {
+            right = props.scrollMeasure;
+        }
+
         if (props?.scroll?.y) {
             return {
-                'right': `${props.scrollMeasure}px`
+                'right': `${right}px`
             }
         }
     })
@@ -74,18 +88,29 @@ export const useTableStyles = (props) => {
     })
 
     /**
-     * 计算free-table-center-container的样式
+     * free-table-center 的样式
      */
     const tableCenterStyles = computed(() => {
-        let width = freeTableWidth.value;
-        if (props?.scroll?.x && props.scroll.x > width) {
-            width = props?.scroll?.x;
-        }
-        if (props?.scroll?.y && props?.scroll?.y > 0) {
-            width = width - props.scrollMeasure;
-        }
+        let height = props.rowHeight * props.dataSource.length;
         return {
-            width: `${width}px`
+            'height': `${height}px`
+        }
+    })
+
+    /**
+     * 计算free-table-center-container的样式
+     */
+    const tableCenterContainerStyles = computed(() => {
+        let width = 0;
+        let height = props.rowHeight * props.dataSource.length;
+        props.columns.forEach((column) => {
+            if (!column.fixed) {
+                width += calculateColumnWidths.value[column.dataIndex];
+            }
+        })
+        return {
+            'width': `${width}px`,
+            'height': `${height}px`
         }
     })
 
@@ -114,15 +139,36 @@ export const useTableStyles = (props) => {
         return className;
     }
 
+    const cellShadowStyles = computed(() => {
+        return {
+            'height': `${props.rowHeight}px`
+        }
+    })
+
+    const rowStyles = computed(() => {
+        return {
+            'height': `${props.rowHeight}px`
+        }
+    })
+
     /**
      * 表头列样式
      * @param {*} col 
      */
     const columnStyles = (col) => {
         return {
-            width: `${calculateColumnWidths.value[col['dataIndex']]}px`
+            'width': `${calculateColumnWidths.value[col['dataIndex']]}px`,
         }
     }
+
+    /**
+     * body部分free-table-cell的样式
+     */
+    const bodycellStyles = computed(() => {
+        return {
+            'height': `${props.rowHeight}px`
+        }
+    })
 
     return {
         tableStyles,
@@ -130,8 +176,12 @@ export const useTableStyles = (props) => {
         headerCenterViewportStyles,
         calculateColumnWidths,
         tableCenterStyles,
+        tableCenterContainerStyles,
         tableBodyStyles,
         tableCellBoxClass,
-        columnStyles
+        cellShadowStyles,
+        rowStyles,
+        columnStyles,
+        bodycellStyles
     }
 }

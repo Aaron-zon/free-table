@@ -84,7 +84,7 @@ table-summary-cell
   - 左侧 ok
   - 右侧 ok
 - cell插槽 ok
-- 固定高度 
+- 固定高度 ok
 - 边框、页头、页脚 
 - 斑马纹 
 - tooltip自定义提示
