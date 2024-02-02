@@ -87,7 +87,7 @@ table-summary-cell
 - 固定高度 ok
 - 吸顶 ok
 - 边框、页头、页脚 
-- 斑马纹 
+- 斑马纹 ok
 - tooltip自定义提示
 - 自动表头高度
   

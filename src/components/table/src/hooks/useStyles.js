@@ -3,9 +3,9 @@ import { checkNumberOrString } from './utils';
 import { freeTableWidth } from './useResize';
 import { useCheck } from './useCheck';
 
-export const useTableStyles = (props) => {
+export const useStyles = (props) => {
 
-    const { leftScrollCheck, bottomScrollCheck } = useCheck(props);
+    const { rightScrollCheck, bottomScrollCheck } = useCheck(props);
 
     /**
      * free-table-container 的样式
@@ -24,7 +24,7 @@ export const useTableStyles = (props) => {
     const tableFixRightStyles = computed(() => {
         let right = 0;
 
-        if (leftScrollCheck.value && bottomScrollCheck.value) {
+        if (rightScrollCheck.value && bottomScrollCheck.value) {
             right = props.scrollMeasure;
         }
 
@@ -53,7 +53,7 @@ export const useTableStyles = (props) => {
         if (props?.scroll?.x && props.scroll.x > width) {
             width = props?.scroll?.x;
         }
-        if (props?.scroll?.y && props?.scroll?.y > 0) {
+        if (props?.scroll?.y && props?.scroll?.y > 0 && rightScrollCheck.value) {
             width = width - props.scrollMeasure;
         }
         // 自定义宽度的列的个数
@@ -120,24 +120,13 @@ export const useTableStyles = (props) => {
     const tableBodyStyles = computed(() => {
         let styles = {};
         if (props?.scroll?.y) {
-            styles['max-height'] = `${props.scroll.y}px`
+            styles['max-height'] = `${props.scroll.y}px`;
+            styles['min-height'] = `${props.scroll.y}px`;
         }
 
         return styles;
 
     })
-
-    /**
-     * 设置表头列的class
-     * @param {*} idx 
-     */
-    const tableCellBoxClass = (idx) => {
-        let className = 'free-table-cell-box';
-        if (idx == props.columns.length - 1 && !props?.scroll?.y) {
-            className = '';
-        }
-        return className;
-    }
 
     const cellShadowStyles = computed(() => {
         return {
@@ -178,7 +167,6 @@ export const useTableStyles = (props) => {
         tableCenterStyles,
         tableCenterContainerStyles,
         tableBodyStyles,
-        tableCellBoxClass,
         cellShadowStyles,
         rowStyles,
         columnStyles,

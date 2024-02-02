@@ -41,7 +41,7 @@ const columns = [
     },
 ];
 
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 500; i++) {
     dataSource.push({
         key: i,
         name: `Edrward ${i}`,
@@ -51,18 +51,19 @@ for (let i = 0; i < 20; i++) {
     });
 }
 
-const scroll = {x: 1800};
+// const scroll = {x: 1800};
 // const scroll = {y: 1000, x: 1800};
-// const scroll = {y: 400, x: 1800};
+const scroll = {y: 400, x: 1800};
 // const scroll = {y: 415};
 // const scroll = {y: 400};
 
 // const scroll = null;
+// :sticky="true"
 </script>
 
 <template>
     <div class="wrapper">
-        <FTable :data-source="dataSource" :columns="columns" :scroll="scroll" :sticky="true">
+        <FTable :data-source="dataSource" :columns="columns" :scroll="scroll" stripe>
             <template #bodyCell="{column}">
                 <template v-if="column.key === 'operation'">
                     <a href="#">Action</a>

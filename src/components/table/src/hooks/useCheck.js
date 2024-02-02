@@ -23,7 +23,7 @@ export const useCheck = (props) => {
     /**
      * 判断是否显示右侧滚动条
      */
-    const leftScrollCheck = computed(() => {
+    const rightScrollCheck = computed(() => {
         const height = props.rowHeight * props.dataSource.length;
         return props?.scroll?.y && height > props.scroll.y
     })
@@ -40,7 +40,7 @@ export const useCheck = (props) => {
     return {
         fixedLeftCheck,
         fixedRightCheck,
-        leftScrollCheck,
+        rightScrollCheck,
         bottomScrollCheck
     }
 }

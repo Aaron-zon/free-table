@@ -5,7 +5,7 @@ import { useCheck } from './useCheck';
 
 
 export const useScroll = (props, freeTableHeaderRef, freeTableBodyRef, horizontalScrollRef, bodyVerticalScrollRef) => {
-    const { leftScrollCheck } = useCheck(props);
+    const { rightScrollCheck } = useCheck(props);
 
     /**
      * X轴滚动条滚动时
@@ -30,7 +30,7 @@ export const useScroll = (props, freeTableHeaderRef, freeTableBodyRef, horizonta
         let width = freeTableWidth.value;
         if (props?.scroll?.x && width < props.scroll.x && width != 0) {
             styles['overflow-x'] = 'scroll';
-            if (leftScrollCheck) {
+            if (rightScrollCheck.value) {
                 styles['width'] = `${width - props.scrollMeasure}px`;
             } else {
                 styles['width'] = `${width}px`;
@@ -142,7 +142,7 @@ export const useScroll = (props, freeTableHeaderRef, freeTableBodyRef, horizonta
      */
     const horizontalScrollFillStyles = computed(() => {
         let width = 0;
-        if (leftScrollCheck.value) {
+        if (rightScrollCheck.value) {
             width = props.scrollMeasure;
         }
         return {

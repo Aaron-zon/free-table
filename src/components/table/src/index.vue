@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useScroll } from './hooks/useScroll';
-import { useTableStyles } from './hooks/useTableStyles';
+import { useStyles } from './hooks/useStyles';
+import { useClass } from './hooks/useClass';
 import { useResize } from './hooks/useResize';
 import { useCheck } from './hooks/useCheck';
 
@@ -40,8 +41,14 @@ const props = defineProps({
         type: Number,
         default: 17,
     },
+    // 吸顶
     sticky: {
-        typeof: Boolean,
+        type: Boolean,
+        default: false
+    },
+    // 斑马纹
+    stripe: {
+        type: Boolean,
         default: false
     }
 });
@@ -91,16 +98,21 @@ const {
     tableCenterStyles,
     tableCenterContainerStyles,
     tableBodyStyles,
-    tableCellBoxClass,
     cellShadowStyles,
     rowStyles,
     columnStyles,
     bodycellStyles
-} = useTableStyles(props);
+} = useStyles(props);
+
+const { 
+    tableCellBoxClass, 
+    freeTableClass,
+    oddOrEvenClass
+} = useClass(props);
 
 const {
     fixedRightCheck,
-    leftScrollCheck
+    rightScrollCheck
 } = useCheck(props);
 
 </script>
@@ -108,7 +120,7 @@ const {
 <template>
     
     <div class="free-table-container" ref="freeTableRef" :class="tableStyles">
-        <div class="free-table-loading">
+        <div class="free-table free-table-loading" :class="freeTableClass">
             <!-- Header -->
             <div class="free-table-header" :class="{'free-table-sticky-header': props.sticky}" ref="freeTableHeaderRef">
                 <div class="free-table-center-viewport" :style="headerCenterViewportStyles">
@@ -164,13 +176,13 @@ const {
                     </div>
                 </div>
 
-                <div class="free-table-header-scrollbar" v-if="leftScrollCheck"></div>
+                <div class="free-table-header-scrollbar" v-if="rightScrollCheck"></div>
             </div>
             <!-- body -->
             <div class="free-table-body" :style="tableBodyStyles">
                 <div class="free-table-body-viewport-container" ref="freeTableBodyRef" @wheel="tableWheel">
                     <div class="free-table-fix-left" :style="tableCenterStyles">
-                        <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx" :style="rowStyles">
+                        <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx" :style="rowStyles" :class="oddOrEvenClass(rIdx)">
                             <template v-for="(col, cIdx) in props.columns" :key="cIdx" >
                                 <div class="free-table-cell" 
                                     v-if="col.fixed === true || col.fixed == 'left'"
@@ -189,7 +201,7 @@ const {
 
                     <div class="free-table-center" :style="tableCenterStyles">
                         <div class="free-table-center-container" :style="tableCenterContainerStyles">
-                            <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx" :style="rowStyles">
+                            <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx" :style="rowStyles" :class="oddOrEvenClass(rIdx)">
                                 <template v-for="(col, cIdx) in props.columns" :key="cIdx" >
                                     <div class="free-table-cell" 
                                         v-if="!col.fixed"
@@ -208,7 +220,7 @@ const {
 
                     <div class="free-table-fix-right" :style="tableFixRightStyles">
 
-                        <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx" :style="rowStyles">
+                        <div class="free-table-row" v-for="(row, rIdx) in props.dataSource" :key="rIdx" :style="rowStyles" :class="oddOrEvenClass(rIdx)">
                             <div class="free-table-cell-shadow-right" v-if="fixedRightCheck" :style="cellShadowStyles"></div>
                             <template v-for="(col, cIdx) in props.columns" :key="cIdx" >
                                 <div class="free-table-cell" 

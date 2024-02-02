@@ -49,13 +49,32 @@
     width: 100%;
     max-width: 100%;
 
-    .free-table-loading {
+    .free-table {
         box-sizing: border-box;
         position: relative;
         height: 100%;
         display: flex;
         flex-direction: column;
 
+        // 斑马纹
+        &.free-table-stripe {
+            .free-table-body {
+                .free-table-row-odd {
+                    background-color: var(--free-table-background-color-selected);
+                }
+            }
+        
+        }
+        
+
+        // 吸顶
+        .free-table-sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 9;
+        }
+
+        // 表头
         .free-table-header {
             box-sizing: border-box;
             flex-grow: 0;
@@ -232,12 +251,6 @@
             }
         }
 
-        .free-table-sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 9;
-        }
-
         // 内容区域
         .free-table-body {
             box-sizing: border-box;
@@ -333,7 +346,6 @@
                         box-sizing: border-box;
                         outline: none;
                         color: var(--free-table-text-color);
-                        background-color: var(--free-table-row-bg);
                         width: 100%;
                         display: flex;
                         align-items: center;
@@ -386,6 +398,7 @@
                 }
             }
         }
+
     }
 
     // X轴滚动条
@@ -426,6 +439,8 @@
             opacity: 1;
         }
     }
+}
 
-    
+.free-table-row {
+    background-color: var(--free-table-row-bg);
 }
