@@ -242,7 +242,6 @@
                 box-sizing: border-box;
                 display: inline-block;
                 position: absolute;
-                top: 0;
                 right: 0px;
                 width: 17px;
                 height: 55px;
@@ -443,4 +442,19 @@
 
 .free-table-row {
     background-color: var(--free-table-row-bg);
+}
+
+.free-table-title {
+    padding: 16px;
+    font-size: 14px;
+}
+
+.free-table-footer {
+    background-color: var(--free-table-background-color);
+    font-size: 14px;
+    padding: 16px;
+}
+
+.free-table-bordered {
+    
 }

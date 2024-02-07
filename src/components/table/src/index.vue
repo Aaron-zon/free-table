@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, useSlots } from 'vue';
 import { useScroll } from './hooks/useScroll';
 import { useStyles } from './hooks/useStyles';
 import { useClass } from './hooks/useClass';
@@ -53,6 +53,8 @@ const props = defineProps({
     }
 });
 
+const slots = defineSlots()
+
 // Free Table
 const freeTableRef = ref(null);
 // Header
@@ -65,6 +67,7 @@ const horizontalScrollRef = ref(null);
 const bodyVerticalScrollRef = ref(null);
 
 onMounted(() => {
+    console.log(slots);
     if (props.height && props?.scroll?.y) {
         props.scroll.y = props.height;
     }
@@ -121,6 +124,11 @@ const {
     
     <div class="free-table-container" ref="freeTableRef" :class="tableStyles">
         <div class="free-table free-table-loading" :class="freeTableClass">
+            <!-- title -->
+            <div class="free-table-title">
+                <slot name="title"></slot>
+            </div>
+
             <!-- Header -->
             <div class="free-table-header" :class="{'free-table-sticky-header': props.sticky}" ref="freeTableHeaderRef">
                 <div class="free-table-center-viewport" :style="headerCenterViewportStyles">
@@ -247,22 +255,30 @@ const {
                     </div>
                 </div>
             </div>
+            <!-- scroll -->
+            <div class="free-table-horizontal-scroll" :style="horizontalScrollStyles">
+                <div class="free-table-horizontal-scroll-viewport" 
+                    ref="horizontalScrollRef" 
+                    :style="horizontalScrollViewportStyles"
+                    @scroll="horizontalScroll"
+                >
+                    <div class="free-table-body-horizontal-scroll-container" :style="horizontalScrollContainerStyles"></div>
+                </div>
+                <!-- 右侧填充 -->
+                <div class="free-table-horizontal-scroll-fill" :style="horizontalScrollFillStyles"></div>
+            </div>
+
+            <!-- footer -->
+            <div class="free-table-footer">
+                <slot name="footer"></slot>
+            </div>
+
             <!-- pagination -->
             <div>
 
             </div>
         </div>
-        <div class="free-table-horizontal-scroll" :style="horizontalScrollStyles">
-            <div class="free-table-horizontal-scroll-viewport" 
-                ref="horizontalScrollRef" 
-                :style="horizontalScrollViewportStyles"
-                @scroll="horizontalScroll"
-            >
-                <div class="free-table-body-horizontal-scroll-container" :style="horizontalScrollContainerStyles"></div>
-            </div>
-            <!-- 右侧填充 -->
-            <div class="free-table-horizontal-scroll-fill" :style="horizontalScrollFillStyles"></div>
-        </div>
+        
     </div>
 </template>
 
